@@ -62,6 +62,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
 .cg button.on{background:var(--pri);color:#fff}.cg button.t{border:1.5px solid var(--pri)}
 .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.lim{display:inline-flex;align-items:center;gap:5px;border:0;background:var(--pri2);color:var(--pri);border-radius:10px;padding:6px 10px;font-weight:600;font-size:12px}.card.over{background:var(--red2)}.card.near{background:#fff4d6}
 #nb{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom,0px));max-width:456px;margin:auto;z-index:8}.ibx{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:18px;padding:10px 12px;box-shadow:0 6px 20px #0003}
+:root[data-theme=dark]{--bg:#121a16;--card:#1b2620;--ink:#e8efe9;--mut:#8fa196;--pri:#4fb58a;--pri2:#1f3a2d;--red:#ef7a70;--red2:#3a2220;--line:#2a372f}[data-theme=dark] .seg{background:#0e1512}[data-theme=dark] input,[data-theme=dark] select,[data-theme=dark] textarea,[data-theme=dark] .dch button{background:#141d18}[data-theme=dark] .card.near{background:#3a3216}[data-theme=dark] .age{color:#e0a84a}[data-theme=dark] .grab{background:#3a463f}
 </style></head><body>
 <div id="app">
 <header><button class="ib" onclick="side(1)" aria-label="Menu" id="mb"></button><h1 id="ttl"></h1></header>
@@ -73,10 +74,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
 <button class="nv" data-v="dues" onclick="go('dues')" data-i="swap">Dues</button>
 <button class="nv" data-v="exp" onclick="go('exp')" data-i="receipt">Expenses</button>
 <button class="nv" data-v="trash" onclick="go('trash')" data-i="trash">Trash</button>
-<button class="nv" data-v="bk" onclick="go('bk')" data-i="down">Backup / Restore</button><button class="nv" data-v="about" onclick="go('about')" data-i="info">About</button></aside>
+<button class="nv" data-v="bk" onclick="go('bk')" data-i="down">Backup / Restore</button><button class="nv" data-v="about" onclick="go('about')" data-i="info">About</button><button class="nv" id="thb" onclick="tgl()" data-i="moon">Dark mode</button></aside>
 <div id="sheet"></div><div id="nb" hidden></div>
 <script>
-var P={menu:'M4 6h16M4 12h16M4 18h16',swap:'M7 7h13l-4-4M17 17H4l4 4',receipt:'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6',down:'M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3',up:'M12 15V3m0 0L8 7m4-4l4 4M4 17v3h16v-3',list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',info:'M12 3a9 9 0 100 18 9 9 0 000-18zM12 11v5M12 8h.01',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6',plus:'M12 5v14M5 12h14',left:'M15 5l-7 7 7 7',right:'M9 5l7 7-7 7',food:'M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-2 1-3 4-3 7h3v11',bus:'M6 4h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2zM4 11h16M8 21v-3M16 21v-3',bolt:'M13 2L4 14h7l-1 8 9-12h-7z',bag:'M5 8h14l-1 13H6zM9 8V6a3 3 0 016 0v2',heart:'M12 21s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 10c0 6-8 11-8 11z',grid:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',undo:'M3 12a9 9 0 109-9M3 4v6h6',clock:'M12 3a9 9 0 100 18 9 9 0 000-18zM12 7v5l3 2',x:'M6 6l12 12M18 6L6 18'};
+var P={menu:'M4 6h16M4 12h16M4 18h16',swap:'M7 7h13l-4-4M17 17H4l4 4',receipt:'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6',down:'M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3',up:'M12 15V3m0 0L8 7m4-4l4 4M4 17v3h16v-3',edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',moon:'M20 14A8 8 0 1110 4a7 7 0 0010 10z',sun:'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5',list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',info:'M12 3a9 9 0 100 18 9 9 0 000-18zM12 11v5M12 8h.01',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6',plus:'M12 5v14M5 12h14',left:'M15 5l-7 7 7 7',right:'M9 5l7 7-7 7',food:'M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-2 1-3 4-3 7h3v11',bus:'M6 4h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2zM4 11h16M8 21v-3M16 21v-3',bolt:'M13 2L4 14h7l-1 8 9-12h-7z',bag:'M5 8h14l-1 13H6zM9 8V6a3 3 0 016 0v2',heart:'M12 21s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 10c0 6-8 11-8 11z',grid:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',undo:'M3 12a9 9 0 109-9M3 4v6h6',clock:'M12 3a9 9 0 100 18 9 9 0 000-18zM12 7v5l3 2',x:'M6 6l12 12M18 6L6 18'};
 function I(n,s){s=s||22;return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+P[n]+'"/></svg>'}
 var S={dues:[],exp:[],trash:[]},view='dues',tab='recv',month=today().slice(0,7),mem=null,fdate='',cm='',arm=false;
 var CATS=[['Food','food'],['Transport','bus'],['Bills','bolt'],['Shopping','bag'],['Health','heart'],['Other','grid']];
@@ -111,7 +112,7 @@ function rDues(){
   var l=S.dues.filter(function(d){return d.type==tab}).sort(function(a,b){var sa=paid(a)>=a.amt,sb=paid(b)>=b.amt;return sa-sb||b.date.localeCompare(a.date)});
   if(!l.length)return h+'<div class="empty">No entries yet.<br>Tap + to add one.</div>';
   l.forEach(function(d){var p=paid(d),done=p>=d.amt;
-    h+='<div class="item" onclick="detail('+d.id+')"><div class="av '+(d.type=='pay'?'p':'')+'">'+esc(d.name.charAt(0).toUpperCase())+'</div><div class="mid"><b>'+esc(d.name)+'</b><div class="sub">'+fd(d.date)+(d.note?' · '+esc(d.note):'')+(done?'':' · '+age(d))+'</div><div class="bar"><i style="width:'+Math.min(100,p/d.amt*100)+'%"></i></div></div><div class="amt">'+(done?'<span class="chip">Paid</span>':fmt(d.amt-p))+'</div></div>'});
+    h+='<div class="item" onclick="detail('+d.id+')"><div class="av '+(d.type=='pay'?'p':'')+'">'+esc(d.name.charAt(0).toUpperCase())+'</div><div class="mid"><b>'+esc(d.name)+'</b><div class="sub">'+fd(d.date)+(d.note?' · '+esc(d.note):'')+(d.m?' · '+esc(d.m):'')+(done?'':' · '+age(d))+'</div><div class="bar"><i style="width:'+Math.min(100,p/d.amt*100)+'%"></i></div></div><div class="amt">'+(done?'<span class="chip">Paid</span>':fmt(d.amt-p))+'</div></div>'});
   return h;
 }
 function rExp(){
@@ -126,7 +127,7 @@ function rExp(){
   h+='</div>';var last='';
   l.forEach(function(e){if(e.date!=last){last=e.date;var dt=l.filter(function(x){return x.date==last}).reduce(function(a,x){return a+x.amt},0);h+='<div class="day"><span>'+fd(last)+'</span><span>'+fmt(dt)+'</span></div>'}
     var c=CATS.filter(function(c){return c[0]==e.cat})[0]||CATS[5];
-    h+='<div class="item" onclick="expDetail('+e.id+')"><div class="av">'+I(c[1])+'</div><div class="mid"><b>'+esc(e.note||e.cat)+'</b><div class="sub">'+e.cat+'</div></div><div class="amt">'+fmt(e.amt)+'</div></div>'});
+    h+='<div class="item" onclick="expDetail('+e.id+')"><div class="av">'+I(c[1])+'</div><div class="mid"><b>'+esc(e.note||e.cat)+'</b><div class="sub">'+e.cat+(e.m?' · '+esc(e.m):'')+'</div></div><div class="amt">'+fmt(e.amt)+'</div></div>'});
   return h;
 }
 function shift(n){var d=new Date(month+'-01T00:00');d.setMonth(d.getMonth()+n);month=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');render()}
@@ -155,21 +156,24 @@ function calH(){var f=new Date(cm+'-01T00:00'),n=new Date(f.getFullYear(),f.getM
   return h+'</div>'}
 function cmv(n){var d=new Date(cm+'-01T00:00');d.setMonth(d.getMonth()+n);cm=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');$('#cal').innerHTML=calH()}
 function pickD(s){fdate=s;$('#cal').hidden=true;updD()}
-function addForm(){fdate=today();
-  if(view=='dues')openSheet('<h3>New entry</h3><div class="seg" style="margin:0"><button id="t1" class="'+(tab=='recv'?'on':'')+'" onclick="pk(\'recv\')">I will receive</button><button id="t2" class="'+(tab=='pay'?'on':'')+'" onclick="pk(\'pay\')">I have to pay</button></div><label>Name</label><input id="f1" placeholder="Person name"><label>Amount</label><input id="f2" type="number" inputmode="decimal" placeholder="0">'+dField()+'<label>Note (optional)</label><input id="f4" placeholder="e.g. Loan, rent"><button class="btn" onclick="saveDue()">Save</button>');
-  else openSheet('<h3>New expense</h3><label>Amount</label><input id="f2" type="number" inputmode="decimal" placeholder="0"><label>Category</label><select id="f1">'+CATS.map(function(c){return '<option>'+c[0]+'</option>'}).join('')+'</select>'+dField()+'<label>Note (optional)</label><input id="f4" placeholder="e.g. Lunch"><button class="btn" onclick="saveExp()">Save</button>');
-  updD();
+var ed=null,mth='';function addForm(id){ed=id||null;var it=null;if(ed)it=(view=='dues'?S.dues:S.exp).filter(function(x){return x.id==ed})[0];fdate=it?it.date:today();mth=it&&it.m||'';
+  if(view=='dues')openSheet('<h3>New entry</h3><div class="seg" style="margin:0"><button id="t1" class="'+(tab=='recv'?'on':'')+'" onclick="pk(\'recv\')">I will receive</button><button id="t2" class="'+(tab=='pay'?'on':'')+'" onclick="pk(\'pay\')">I have to pay</button></div><label>Name</label><input id="f1" placeholder="Person name"><label>Amount</label><input id="f2" type="number" inputmode="decimal" placeholder="0">'+dField()+mField()+'<label>Note (optional)</label><input id="f4" placeholder="e.g. Loan, rent"><button class="btn" onclick="saveDue()">Save</button>');
+  else openSheet('<h3>New expense</h3><label>Amount</label><input id="f2" type="number" inputmode="decimal" placeholder="0"><label>Category</label><select id="f1">'+CATS.map(function(c){return '<option>'+c[0]+'</option>'}).join('')+'</select>'+dField()+mField()+'<label>Note (optional)</label><input id="f4" placeholder="e.g. Lunch"><button class="btn" onclick="saveExp()">Save</button>');
+  updD();mUpd();if(it){$('#sheet h3').textContent=view=='dues'?'Edit entry':'Edit expense';$('#f1').value=view=='dues'?it.name:it.cat;$('#f2').value=it.amt;$('#f4').value=it.note||'';if(view=='dues')pk(it.type)}
 }
+function mField(){return '<label>Method</label><div class="dch" id="mch">'+['bKash','Cash','Bank','Other'].map(function(m){return '<button onclick="pm(this)">'+m+'</button>'}).join('')+'</div>'}
+function pm(b){mth=mth==b.textContent?'':b.textContent;mUpd()}
+function mUpd(){document.querySelectorAll('#mch button').forEach(function(b){b.classList.toggle('on',b.textContent==mth)})}
 function pk(t){tab=t;$('#t1').classList.toggle('on',t=='recv');$('#t2').classList.toggle('on',t=='pay')}
 function saveDue(){var n=$('#f1').value.trim(),a=parseFloat($('#f2').value);if(!n||!(a>0)){$('#f1').style.borderColor=n?'':'#c8453b';$('#f2').style.borderColor=a>0?'':'#c8453b';return}
-  S.dues.push({id:Date.now(),type:tab,name:n,amt:a,date:fdate,note:$('#f4').value.trim(),pays:[]});save();closeSheet();render()}
+  var o=ed?S.dues.filter(function(x){return x.id==ed})[0]:null;if(o){o.type=tab;o.name=n;o.amt=a;o.date=fdate;o.note=$('#f4').value.trim();o.m=mth}else S.dues.push({id:Date.now(),type:tab,name:n,amt:a,date:fdate,note:$('#f4').value.trim(),m:mth,pays:[]});save();closeSheet();render()}
 function saveExp(){var a=parseFloat($('#f2').value);if(!(a>0)){$('#f2').style.borderColor='#c8453b';return}
-  S.exp.push({id:Date.now(),cat:$('#f1').value,amt:a,date:fdate,note:$('#f4').value.trim()});month=fdate.slice(0,7);save();closeSheet();render()}
+  var o=ed?S.exp.filter(function(x){return x.id==ed})[0]:null;if(o){o.cat=$('#f1').value;o.amt=a;o.date=fdate;o.note=$('#f4').value.trim();o.m=mth}else S.exp.push({id:Date.now(),cat:$('#f1').value,amt:a,date:fdate,note:$('#f4').value.trim(),m:mth});month=fdate.slice(0,7);save();closeSheet();render()}
 function detail(id){var d=S.dues.filter(function(x){return x.id==id})[0],p=paid(d),rem=d.amt-p;
-  var h='<h3>'+esc(d.name)+'</h3><div class="sub">'+(d.type=='recv'?'Will receive':'Has to pay')+' · '+fd(d.date)+(d.note?' · '+esc(d.note):'')+(rem>0?' · '+age(d):'')+'</div><div class="row" style="margin-top:12px"><div><div class="lbl">Total</div><b>'+fmt(d.amt)+'</b></div><div><div class="lbl">Paid</div><b class="g">'+fmt(p)+'</b></div><div><div class="lbl">Remaining</div><b class="r">'+fmt(Math.max(0,rem))+'</b></div></div>';
+  var h='<h3>'+esc(d.name)+'</h3><div class="sub">'+(d.type=='recv'?'Will receive':'Has to pay')+' · '+fd(d.date)+(d.note?' · '+esc(d.note):'')+(d.m?' · '+esc(d.m):'')+(rem>0?' · '+age(d):'')+'</div><div class="row" style="margin-top:12px"><div><div class="lbl">Total</div><b>'+fmt(d.amt)+'</b></div><div><div class="lbl">Paid</div><b class="g">'+fmt(p)+'</b></div><div><div class="lbl">Remaining</div><b class="r">'+fmt(Math.max(0,rem))+'</b></div></div>';
   if(d.pays.length){h+='<label>Payments</label>';d.pays.forEach(function(x){h+='<div class="ph"><span>'+fd(x.date)+'</span><b>'+fmt(x.amt)+'</b></div>'})}
   if(rem>0)h+='<label>Add payment</label><input id="pa" type="number" inputmode="decimal" placeholder="Amount" value="'+rem+'"><button class="btn" onclick="pay('+id+')">Record payment</button>';
-  h+='<button class="btn d" onclick="delDue('+id+')">'+I('trash',20)+'Move to Trash</button>';openSheet(h)}
+  h+='<button class="btn o" onclick="addForm('+id+')">'+I('edit',20)+'Edit entry</button>';h+='<button class="btn d" onclick="delDue('+id+')">'+I('trash',20)+'Move to Trash</button>';openSheet(h)}
 function pay(id){var a=parseFloat($('#pa').value);if(!(a>0))return;var d=S.dues.filter(function(x){return x.id==id})[0];var x=Math.min(a,d.amt-paid(d));d.pays.push({amt:x,date:today()});save();closeSheet();render()}
 function limForm(){openSheet('<h3>Monthly limit</h3><label>Amount</label><input id="lm" type="number" inputmode="numeric" value="'+S.limit+'"><button class="btn" onclick="setLim()">Save</button>')}
 function setLim(){var v=parseFloat($('#lm').value);if(v>0)S.limit=v;save();closeSheet();render()}
@@ -180,7 +184,7 @@ function rAbout(){return '<div class="card" style="text-align:center;padding:32p
 function exF(){try{var b=new Blob([JSON.stringify(S)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='money-tracker-'+today()+'.json';document.body.appendChild(a);a.click();a.remove()}catch(e){}}
 function imF(i){var f=i.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(!d.dues||!d.exp)throw 0;S=d;S.trash=S.trash||[];S.hist=S.hist||[];S.limit=S.limit||2000;save();render()}catch(e){i.value='';$('#main').insertAdjacentHTML('afterbegin','<div class="card r">Invalid backup file</div>')}};r.readAsText(f)}
 function delDue(id){var d=S.dues.filter(function(x){return x.id==id})[0];S.trash.push({kind:'due',item:d,at:Date.now()});S.dues=S.dues.filter(function(x){return x.id!=id});save();closeSheet();render()}
-function expDetail(id){var e=S.exp.filter(function(x){return x.id==id})[0];openSheet('<h3>'+fmt(e.amt)+'</h3><div class="sub">'+e.cat+' · '+fd(e.date)+(e.note?' · '+esc(e.note):'')+'</div><button class="btn d" onclick="delExp('+id+')">'+I('trash',20)+'Move to Trash</button>')}
+function expDetail(id){var e=S.exp.filter(function(x){return x.id==id})[0];openSheet('<h3>'+fmt(e.amt)+'</h3><div class="sub">'+e.cat+' · '+fd(e.date)+(e.note?' · '+esc(e.note):'')+(e.m?' · '+esc(e.m):'')+'</div><button class="btn o" onclick="addForm('+id+')">'+I('edit',20)+'Edit expense</button><button class="btn d" onclick="delExp('+id+')">'+I('trash',20)+'Move to Trash</button>')}
 function delExp(id){var e=S.exp.filter(function(x){return x.id==id})[0];S.trash.push({kind:'exp',item:e,at:Date.now()});S.exp=S.exp.filter(function(x){return x.id!=id});save();closeSheet();render()}
 (function(){
 var sd=$('#side'),sc=$('#scrim'),x0,y0,t0,mode=null,drag=false,SW=0,pos=0,lx=0,lt=0,vel=0;
@@ -242,5 +246,8 @@ function inst(){if(!dp)return;dp.prompt();dp.userChoice.then(function(){dp=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;ibShow();if(view=='about')render()});
 window.addEventListener('appinstalled',function(){dp=null;nbHide(0)});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
+function applyTheme(t){document.documentElement.dataset.theme=t;var b=$('#thb');b.dataset.i=t=='dark'?'sun':'moon';b.textContent=t=='dark'?'Light mode':'Dark mode';document.querySelector('meta[name=theme-color]').content=t=='dark'?'#121a16':'#1f6b4f'}
+function tgl(){var t=document.documentElement.dataset.theme=='dark'?'light':'dark';try{localStorage.setItem('mt_theme',t)}catch(e){}applyTheme(t);render()}
+var th='light';try{th=localStorage.getItem('mt_theme')||'light'}catch(e){}applyTheme(th);
 load();render();
 </script></body></html>
